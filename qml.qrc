@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>LoginForm.ui.qml</file>
+        <file>MainForm.ui.qml</file>
+        <file>qwebchannel.js</file>
+    </qresource>
+</RCC>
