@@ -52,16 +52,19 @@ ApplicationWindow {
 
                     //connect to the changed signal of the userList property
                     ch.objects.chatserver.userListChanged.connect(function(args) {
-                        mainUi.userlist.text = '';
-                        ch.objects.chatserver.userList.forEach(function(user) {
-                            mainUi.userlist.text += user + '\n';
-                        });
+                        listModelUser.arrayUserList = ch.objects.chatserver.userList
+                        listModelUser.updateUserList()
+//                        mainUi.userlist.text = '';
+//                        ch.objects.chatserver.userList.forEach(function(user) {
+//                            //mainUi.userlist.text += user + '\n';
+//                            listModelUser
+//                        });
                     });
 
                     //connect to the newMessage signal
                     ch.objects.chatserver.newMessage.connect(function(time, user, message) {
-                        var line = "[" + time + "] " + user + ": " + message + '\n';
-                        mainUi.chat.text = mainUi.chat.text + line;
+                        var msgItemList = "[" + time + "] " + user + ": " + message;
+                        listModelMsg.addMsg(msgItemList)
                     });
 
                     //connect to the keep alive signal
@@ -81,6 +84,10 @@ ApplicationWindow {
     MainForm {
         id: mainUi
         anchors.fill: parent
+        msgListView.model: listModelMsg
+        msgListView.delegate: delegateMsg
+        userListView.model: listModelUser
+        userListView.delegate: delegateUser
 
         Connections {
             target: mainUi.message
@@ -94,6 +101,87 @@ ApplicationWindow {
                 mainUi.message.text = '';
             }
         }
+        Timer {
+            running: true
+            repeat: true
+            interval: 3500
+            onTriggered: {
+                if (mainUi.txtTit.nt < 2) {
+                    mainUi.txtTit.nt++
+                } else {
+                    mainUi.txtTit.nt = 0
+                }
+                mainUi.txtTit.text = mainUi.txtTit.titles[mainUi.txtTit.nt]
+            }
+        }
+    }
+    ListModel{
+        id: listModelUser
+        property var arrayUserList: []
+        function createElement(u){
+            return {
+                user: u
+            }
+        }
+        function updateUserList(){
+            clear()
+            var ul = arrayUserList;
+            for(var i=0; i < ul.length; i++){
+                append(createElement(ul[i]))
+            }
+        }
+    }
+    ListModel{
+        id: listModelMsg
+        function createElement(m){
+            return {
+                msg: m
+            }
+        }
+        function addMsg(msg){
+            append(createElement(msg))
+        }
+    }
+    Component{
+        id: delegateUser
+        Rectangle{
+            width: mainUi.userListView.width*0.9
+            height: 24
+            border.width: 1
+            color: "#cccccc"
+            radius: 6
+            anchors.horizontalCenter: parent.horizontalCenter
+            clip:true
+            Text {
+                text: "<b>"+user+"</b>"
+                font.pixelSize: 20
+                anchors.centerIn: parent
+            }
+        }
+    }
+    Component{
+        id: delegateMsg
+        Rectangle{
+            width: mainUi.msgListView.width*0.9
+            height: txtMsg.contentHeight
+            border.width: 1
+            color: "#cccccc"
+            radius: 6
+            anchors.horizontalCenter: parent.horizontalCenter
+            clip:true
+            Text {
+                id: txtMsg
+                width: parent.width-48
+                height: contentHeight
+                text: "<b>"+msg+"</b>"
+                font.pixelSize: 20
+                anchors.centerIn: parent
+                wrapMode: Text.WordWrap
+            }
+        }
+    }
+    Component.onCompleted: {
+        //listModelUser.updateUserList()
     }
 
     Window {

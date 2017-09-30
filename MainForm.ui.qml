@@ -48,33 +48,95 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
 Item {
-    property alias chat: chat
-    property alias userlist: userlist
     property alias message: message
+    property alias txtTit: txtTit
+    property alias nt: txtTit.nt
+    property alias msgListView: msgListView
+    property alias userListView: userListView
 
-    GridLayout {
-        anchors.fill: parent
-        rows: 2
-        columns: 2
-
+    Rectangle {
+        width: parent.width
+        height: 28
+        border.width: 1
         Text {
-            id: chat
+            id: txtTit
+            property int nt: 0
+            property var titles: ["Its is a <b>CLIENT</b> app send/received message from all user connected to qt_qml_chat_server", "Download from github qt_qml_chat_server for received a message and connect multi users", "This client and the server app are connected in ws://localhost:12345 "]
+            text: txtTit.titles[0]
+            font.pixelSize: parent.width * 0.0225 < 26 ? parent.width * 0.0225 : 26
+            anchors.centerIn: parent
+        }
+    }
+    ColumnLayout {
+        width: parent.width
+        height: parent.height - y
+        y: 28
+
+        RowLayout {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: 0
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                border.width: 1
+                Rectangle {
+                    width: parent.width
+                    height: 28
+                    color: "black"
+                    Text {
+                        text: "<b>Messages</b>"
+                        font.pixelSize: 24
+                        anchors.centerIn: parent
+                        color: "white"
+                    }
+                }
+                //ListView{id:msgListView;width: parent.width; height: parent.height-28; y:28; spacing: 10; model: listModelMsg; delegate: delegateMsg;}
+                ListView {
+                    id: msgListView
+                    width: parent.width
+                    height: parent.height - 28
+                    y: 28
+                    spacing: 10
+                }
+            }
+            Rectangle {
+                Layout.minimumWidth: parent.width * 0.3
+                Layout.maximumWidth: parent.width * 0.3
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                border.width: 1
+                Rectangle {
+                    width: parent.width
+                    height: 28
+                    color: "black"
+                    Text {
+                        text: "<b>User List</b>"
+                        font.pixelSize: 24
+                        anchors.centerIn: parent
+                        color: "white"
+                    }
+                }
+                ListView {
+                    id: userListView
+                    width: parent.width
+                    height: parent.height - 28
+                    y: 28
+                    spacing: 10
+                }
+            }
         }
 
-        Text {
-            id: userlist
-            width: 150
-            Layout.fillHeight: true
-        }
-
+        //        Text {
+        //            id: userlist
+        //            width: 150
+        //            Layout.fillHeight: true
+        //        }
         TextField {
             id: message
             height: 50
