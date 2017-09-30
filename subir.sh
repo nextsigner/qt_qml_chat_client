@@ -1,5 +1,6 @@
 #!/bin/bash
 git add *.md
+git add *.js
 git add *.cpp
 git add *.qml
 git add *.pro
