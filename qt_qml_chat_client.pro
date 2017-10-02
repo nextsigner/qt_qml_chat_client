@@ -2,7 +2,7 @@ QT += quick
 CONFIG += c++11
 
 linux:{
-    DESTDIR = ../qt_qml_chat_client/build_linux
+    DESTDIR = ../qt_qml_chat_client/qt_qml_chat_client
 }
 
 # The following define makes your compiler emit warnings if you use

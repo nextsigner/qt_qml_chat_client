@@ -96,11 +96,12 @@ Item {
                         color: "white"
                     }
                 }
-                //ListView{id:msgListView;width: parent.width; height: parent.height-28; y:28; spacing: 10; model: listModelMsg; delegate: delegateMsg;}
+
                 ListView {
                     id: msgListView
                     width: parent.width
                     height: parent.height - 28
+                    clip: true
                     y: 28
                     spacing: 10
                 }
@@ -126,6 +127,7 @@ Item {
                     id: userListView
                     width: parent.width
                     height: parent.height - 28
+                    clip: true
                     y: 28
                     spacing: 10
                 }

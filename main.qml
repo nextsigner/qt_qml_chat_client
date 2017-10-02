@@ -65,6 +65,7 @@ ApplicationWindow {
                     ch.objects.chatserver.newMessage.connect(function(time, user, message) {
                         var msgItemList = "[" + time + "] " + user + ": " + message;
                         listModelMsg.addMsg(msgItemList)
+                        mainUi.msgListView.currentIndex = listModelMsg.count-1
                     });
 
                     //connect to the keep alive signal
